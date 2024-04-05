@@ -1,9 +1,7 @@
-# from .block import Block
 from .enums import EncryptionDirection, EncryptionMode
 from .utils import (
     get_hex_stream,
     print_matrix,
-    round_key,
     s_operation,
     sigma_operation,
     t_multiplication,
@@ -35,46 +33,67 @@ class BabyRijndael:
 
         return output
 
-    def _encrypt(self, input: str) -> str:
-        print("Initial Key:")
-        print_matrix(self.key)
-
-        # convert input to hex stream
+    def one_round(
+        self,
+        input: str,
+        apply_s: bool,
+        apply_sigma: bool,
+        apply_t: bool,
+        key: list[str],
+    ) -> list[str]:
         hex_stream: list[str] = get_hex_stream(input)
 
-        print("Initial Block:")
-        print_matrix(hex_stream)
+        if apply_s:
+            hex_stream = s_operation(hex_stream)
+        if apply_sigma:
+            hex_stream = sigma_operation(hex_stream)
+        if apply_t:
+            hex_stream = t_multiplication(hex_stream)
+
+        return xor(hex_stream, key)
+
+    def _encrypt(self, input: str) -> str:
+        # preliminary
+        round_zero = self.one_round(input, False, False, False, self.key)
+        print_matrix(round_zero)
 
         # round 1
-        print("\nRound 1:")
-        xor_key = xor(hex_stream, self.key)
-        print("After Key XOR:")
-        print_matrix(xor_key)
+        # key_one = self.
 
         # round 2
-        print("\nRound 2:")
-        s_op = s_operation(xor_key)
-        print("After S-Box Operation:")
-        print_matrix(s_op)
-
-        sigma_op = sigma_operation(s_op)
-        print("After Sigma Operation:")
-        print_matrix(sigma_op)
-
-        t_mult = t_multiplication(sigma_op)
-        print("After T-Multiplication:")
-        print_matrix(t_mult)
-
-        round_key1 = round_key(self.key, 1)
-        print("Round Key 1:")
-        print_matrix(round_key1)
 
         # round 3
-        print("\nRound 3:")
 
-        print("round key 2")
-        round_key2 = round_key(round_key1, 2)
-        print_matrix(round_key2)
+        # round 4
+
+        # xor_key = xor(hex_stream, self.key)
+        # print("After Key XOR:")
+        # print_matrix(xor_key)
+
+        # # round 2
+        # print("\nRound 2:")
+        # s_op = s_operation(xor_key)
+        # print("After S-Box Operation:")
+        # print_matrix(s_op)
+
+        # sigma_op = sigma_operation(s_op)
+        # print("After Sigma Operation:")
+        # print_matrix(sigma_op)
+
+        # t_mult = t_multiplication(sigma_op)
+        # print("After T-Multiplication:")
+        # print_matrix(t_mult)
+
+        # round_key1 = round_key(self.key, 1)
+        # print("Round Key 1:")
+        # print_matrix(round_key1)
+
+        # # round 3
+        # print("\nRound 3:")
+
+        # print("round key 2")
+        # round_key2 = round_key(round_key1, 2)
+        # print_matrix(round_key2)
 
         return input
 

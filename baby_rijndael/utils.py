@@ -1,3 +1,5 @@
+import numpy as np
+
 from .constants import SBOX_INVERSE, SBOX_LOOKUP, T_MATRIX
 
 
@@ -82,8 +84,9 @@ def t_multiplication(hex_stream: list[str]) -> list[str]:
     matrix[7][1] = int(binary_stream[3][3])
 
     # multiply matrix by T_MATRIX
-    mult_product = matrix_multiplication(T_MATRIX, matrix)
-    result = matrix_modulo_two(mult_product)
+    result = np.array(T_MATRIX) @ np.array(matrix) % 2
+    # mult_product = matrix_multiplication(T_MATRIX, matrix)
+    # result = matrix_modulo_two(mult_product)
 
     # reconstruct hex stream from column major order matrix
     output = [
@@ -114,50 +117,6 @@ def t_multiplication(hex_stream: list[str]) -> list[str]:
     ]
 
     return output
-
-
-def matrix_multiplication(
-    matrix_a: list[list[int]], matrix_b: list[list[int]]
-) -> list[list[int]]:
-    # get the number of rows and columns in matrix_a
-    rows_a = len(matrix_a)
-    cols_a = len(matrix_a[0])
-
-    # get the number of rows and columns in matrix_b
-    rows_b = len(matrix_b)
-    cols_b = len(matrix_b[0])
-
-    # verify that the number of columns in matrix_a is equal to the number of rows in matrix_b
-    assert (
-        cols_a == rows_b
-    ), "Number of columns in matrix_a must be equal to the number of rows in matrix_b"
-
-    # initialize the resulting matrix
-    result = [[0 for _ in range(cols_b)] for _ in range(rows_a)]
-
-    # iterate through the rows of matrix_a
-    for i in range(rows_a):
-        # iterate through the columns of matrix_b
-        for j in range(cols_b):
-            # iterate through the columns of matrix_a
-            for k in range(cols_a):
-                result[i][j] += matrix_a[i][k] * matrix_b[k][j]
-
-    return result
-
-
-def matrix_modulo_two(matrix_a: list[list[int]]) -> list[list[int]]:
-    # get the number of rows and columns in matrix_a
-    rows_a = len(matrix_a)
-    cols_a = len(matrix_a[0])
-
-    # iterate through the rows of matrix_a
-    for i in range(rows_a):
-        # iterate through the columns of matrix_a
-        for j in range(cols_a):
-            matrix_a[i][j] = matrix_a[i][j] % 2
-
-    return matrix_a
 
 
 def get_y(i: int):
