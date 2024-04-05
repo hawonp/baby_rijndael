@@ -58,9 +58,7 @@ def main() -> None:
     block = "2ca5"
 
     baby_rijndael = BabyRijndael(mode, direction, filename, key, iv)
-    output = baby_rijndael.run(block)
-
-    print(f"Output: {output}")
+    baby_rijndael.run(block)
 
 
 if __name__ == "__main__":
