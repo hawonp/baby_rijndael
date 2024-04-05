@@ -3,6 +3,7 @@ from .enums import EncryptionDirection, EncryptionMode
 from .utils import (
     get_hex_stream,
     print_matrix,
+    round_key,
     s_operation,
     sigma_operation,
     t_multiplication,
@@ -63,6 +64,17 @@ class BabyRijndael:
         t_mult = t_multiplication(sigma_op)
         print("After T-Multiplication:")
         print_matrix(t_mult)
+
+        round_key1 = round_key(self.key, 1)
+        print("Round Key 1:")
+        print_matrix(round_key1)
+
+        # round 3
+        print("\nRound 3:")
+
+        print("round key 2")
+        round_key2 = round_key(round_key1, 2)
+        print_matrix(round_key2)
 
         return input
 

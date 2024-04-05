@@ -49,14 +49,15 @@ def to_hex(binary_string: str) -> str:
 
 def xor(matrix_a: list[str], matrix_b: list[str]) -> list[str]:
     binary_xor_arr = [
-        (bin(int(a, 16) ^ int(b, 16))[2:].zfill(4)) for a, b in zip(matrix_a, matrix_b)
+        (bin(int(str(a), 16) ^ int(str(b), 16))[2:].zfill(4))
+        for a, b in zip(matrix_a, matrix_b)
     ]
 
     # return as hexadecimal
     return [to_hex(x) for x in binary_xor_arr]
 
 
-def t_multiplication(hex_stream: list[str]):
+def t_multiplication(hex_stream: list[str]) -> list[str]:
     # convert hex_stream to binary
     binary_stream = [to_binary(x) for x in hex_stream]
 
@@ -157,3 +158,24 @@ def matrix_modulo_two(matrix_a: list[list[int]]) -> list[list[int]]:
             matrix_a[i][j] = matrix_a[i][j] % 2
 
     return matrix_a
+
+
+def get_y(i: int):
+    return [str(2 ** (i - 1)), str(0)]
+
+
+def round_key(key: list[str], i: int):
+    w0 = [key[0], key[1]]
+    w1 = [key[2], key[3]]
+
+    reverse_w1 = [key[3], key[2]]
+
+    s_w1 = s_operation(reverse_w1)
+
+    xor_w0 = xor(w0, s_w1)
+
+    w2 = xor(xor_w0, get_y(i))
+
+    w3 = xor(w1, w2)
+
+    return w2 + w3
