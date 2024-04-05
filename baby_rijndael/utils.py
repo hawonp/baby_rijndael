@@ -77,8 +77,6 @@ def calc_t(hex_stream: list[str]) -> list[str]:
 
     # multiply matrix by T_MATRIX
     result = np.array(T_MATRIX) @ np.array(matrix) % 2
-    # mult_product = matrix_multiplication(T_MATRIX, matrix)
-    # result = matrix_modulo_two(mult_product)
 
     # reconstruct hex stream from column major order matrix
     output = [

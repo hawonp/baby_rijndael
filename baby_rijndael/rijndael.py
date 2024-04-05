@@ -16,10 +16,8 @@ class BabyRijndael:
     def __init__(
         self,
         key: str,
-        iv: str | None,
     ) -> None:
         self.key = get_hex_stream(key)
-        self.iv = get_hex_stream(iv) if iv else None
 
     def encrypt(self, input: str) -> str:
         # calculate round keys
