@@ -2,6 +2,8 @@ from abc import ABC
 
 from .utils import round_key, sbox, sbox_inverse, sigma_hat, tbox, tbox_inverse, xor
 
+__all__ = ["BlockCipher", "BabyRijndael"]
+
 
 class BlockCipher(ABC):
     def encrypt(

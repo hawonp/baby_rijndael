@@ -1,6 +1,8 @@
 from .block_cipher import BlockCipher
 from .utils import xor
 
+__all__ = ["cbc_encrypt", "cbc_decrypt"]
+
 
 def cbc_encrypt(
     plaintext: str,
