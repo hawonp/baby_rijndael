@@ -6,13 +6,18 @@ Implementation of the Baby Rijndael AES Cipher in Python
 
 ## Installation
 1. Create new virtual environment
+   
     `python3 -m venv .venv`
-2. Initialize virtual environment
+3. Initialize virtual environment
+   
     `source .venv/bin/activate` (unix)
+   
     `.venv\Scripts\activate` (windows)
-3. Install packages from requirements.txt
+4. Install packages from requirements.txt
+   
     `pip install -r requirements. txt`
-4. Run python script to encrypt/decrypt with Baby Rijndael
+6. Run python script to encrypt/decrypt with Baby Rijndael
+   
     `python3 main.py`
 
 ## Important
