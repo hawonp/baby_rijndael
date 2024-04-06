@@ -1,13 +1,39 @@
+from abc import ABC
+
 from .utils import round_key, sbox, sbox_inverse, sigma_hat, tbox, tbox_inverse, xor
 
 
-class BlockCipher:
-    def __init__(self, key):
-        self.key = key
+class BlockCipher(ABC):
+    def encrypt(
+        self,
+        plaintext: str,
+        key: str,
+    ):
+        raise NotImplementedError
 
-    def encrypt(self, plaintext: str):
+    def decrypt(
+        self,
+        ciphertext: str,
+        key: str,
+    ):
+        raise NotImplementedError
+
+
+class BabyRijndael(BlockCipher):
+
+    def encrypt(
+        self,
+        plaintext: str,
+        key: str,
+    ):
+
+        if "0x" in plaintext:
+            plaintext = plaintext[2:]
+        if "0x" in key:
+            key = key[2:]
+
         # calculate round keys
-        key_zero = self.key
+        key_zero = key
         key_one = round_key(key_zero, 1)
         key_two = round_key(key_one, 2)
         key_three = round_key(key_two, 3)
@@ -39,13 +65,20 @@ class BlockCipher:
         round_four = sigma_hat(round_four)
         round_four = xor(round_four, key_four)
 
-        print(round_zero, round_one, round_two, round_three, round_four)
-
         return round_four
 
-    def decrypt(self, ciphertext: str):
+    def decrypt(
+        self,
+        ciphertext: str,
+        key: str,
+    ):
+        if "0x" in ciphertext:
+            ciphertext = ciphertext[2:]
+        if "0x" in key:
+            key = key[2:]
+
         # calculate round keys
-        key_zero = self.key
+        key_zero = key
         key_one = round_key(key_zero, 1)
         key_two = round_key(key_one, 2)
         key_three = round_key(key_two, 3)

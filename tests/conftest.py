@@ -1,18 +1,12 @@
 import pytest
 
-from cipher.block_cipher import BlockCipher
+from cipher.block_cipher import BabyRijndael
 
 __all__ = [
-    "key",
     "block_cipher_dataset",
 ]
 
 
 @pytest.fixture
-def key() -> str:
-    return "6b5d"
-
-
-@pytest.fixture
-def block_cipher_dataset(key: str):
-    return BlockCipher(key)
+def block_cipher_dataset():
+    return BabyRijndael()
