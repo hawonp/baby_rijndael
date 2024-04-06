@@ -1,6 +1,6 @@
 import pytest
 
-from baby_rijndael.rijndael import BabyRijndael
+from cipher.block_cipher import BlockCipher
 
 
 @pytest.mark.parametrize(
@@ -14,11 +14,11 @@ from baby_rijndael.rijndael import BabyRijndael
         ("ffff", "ffff", "c75b"),
     ],
 )
-def test_ecb_decryption(
-    baby_rijndael_dataset: BabyRijndael,
+def test_block_cipher_decryption(
+    block_cipher_dataset: BlockCipher,
     block: str,
     key: str,
     expected: str,
 ) -> None:
-    baby_rijndale = baby_rijndael_dataset
-    assert baby_rijndale.decrypt(expected) == block
+    block_cipher = block_cipher_dataset
+    assert block_cipher.decrypt(expected) == block

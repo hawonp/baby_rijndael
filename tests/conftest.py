@@ -1,10 +1,10 @@
 import pytest
 
-from baby_rijndael.rijndael import BabyRijndael
+from cipher.block_cipher import BlockCipher
 
 __all__ = [
     "key",
-    "baby_rijndael_dataset",
+    "block_cipher_dataset",
 ]
 
 
@@ -14,9 +14,5 @@ def key() -> str:
 
 
 @pytest.fixture
-def baby_rijndael_dataset(
-    key: str,
-):
-    return BabyRijndael(
-        key=key,
-    )
+def block_cipher_dataset(key: str):
+    return BlockCipher(key)

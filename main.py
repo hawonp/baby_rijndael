@@ -1,5 +1,3 @@
-from baby_rijndael.cipher_block_chaining import cbc_encrypt
-
 # # initial welcome
 # print("Welcome to Baby Rijndael!")
 
@@ -51,8 +49,19 @@ from baby_rijndael.cipher_block_chaining import cbc_encrypt
 
 
 if __name__ == "__main__":
-    cbc_encrypt(
-        "0x3516bd2b",
-        "0x1111",
-        "0x0000",
-    )
+
+    s1 = b"0x00ff"
+    s2 = "0xff00"
+
+    result = int(s1, 16) ^ int(s2, 16)
+    print(result)
+    print(hex(result))
+
+    # print in binary
+    print(bin(result)[2:])
+
+    # cbc_encrypt(
+    #     "0x3516bd2b",
+    #     "0x1111",
+    #     "0x0000",
+    # )
