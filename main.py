@@ -55,8 +55,8 @@ def main():
 
     # verify that file exists
     try:
-        with open(filename, "rb") as f:
-            data = f.read().hex()
+        with open(filename, "r") as f:
+            data = f.read()
     except FileNotFoundError:
         print("File not found. Exiting...")
         return
