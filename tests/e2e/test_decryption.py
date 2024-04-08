@@ -9,7 +9,7 @@ from cipher.cipher_block_chaining import cbc_decrypt
     [
         ("0xe6d25de9", "0x1111", "0x0000", "3516bd2b"),
         ("0xb8d7ad81ad5653fac5cb", "0xd884", "0x5407", "85ca0e6fe5ce620e134d"),
-        # ("0x85ca0e6fe5ce620e134d", "0xb95f", "0x9a26", "85ca0e6fe5ce620e134d"),
+        ("0x49250478e624a83cccaf", "0xb95f", "0x9a26", "5d67df0102130b5b9f45"),
     ],
 )
 def test_cbc_decrypt(
