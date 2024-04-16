@@ -24,6 +24,25 @@ SBOX_LOOKUP: dict[str, str] = {
     "f": "d",
 }
 
+SBOX: dict[bytes, bytes] = {
+    b"\x00": b"\x0a",
+    b"\x01": b"\x04",
+    b"\x02": b"\x03",
+    b"\x03": b"\x0b",
+    b"\x04": b"\x08",
+    b"\x05": b"\x0e",
+    b"\x06": b"\x02",
+    b"\x07": b"\x0c",
+    b"\x08": b"\x05",
+    b"\x09": b"\x07",
+    b"\x0a": b"\x06",
+    b"\x0b": b"\x0f",
+    b"\x0c": b"\x00",
+    b"\x0d": b"\x01",
+    b"\x0e": b"\x09",
+    b"\x0f": b"\x0d",
+}
+
 SBOX_INVERSE: dict[str, str] = {
     "0": "c",
     "1": "d",
@@ -41,6 +60,25 @@ SBOX_INVERSE: dict[str, str] = {
     "d": "f",
     "e": "5",
     "f": "b",
+}
+
+INVERSE_SBOX: dict[bytes, bytes] = {
+    b"\x00": b"\x0c",
+    b"\x01": b"\x0d",
+    b"\x02": b"\x06",
+    b"\x03": b"\x02",
+    b"\x04": b"\x01",
+    b"\x05": b"\x08",
+    b"\x06": b"\x0a",
+    b"\x07": b"\x09",
+    b"\x08": b"\x04",
+    b"\x09": b"\x0e",
+    b"\x0a": b"\x00",
+    b"\x0b": b"\x03",
+    b"\x0c": b"\x07",
+    b"\x0d": b"\x0f",
+    b"\x0e": b"\x05",
+    b"\x0f": b"\x0b",
 }
 
 T_MATRIX: list[list[int]] = [

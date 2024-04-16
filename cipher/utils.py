@@ -12,6 +12,9 @@ __all__ = [
     "tbox",
     "tbox_inverse",
     "round_key",
+    "add_padding",
+    "remove_padding",
+    "xor_bytes",
 ]
 
 
@@ -35,12 +38,31 @@ def is_hexadecimal(data: str) -> bool:
     return True
 
 
+def add_padding(data: bytes):
+    # pad with 0xff if there is an odd number of bytes
+    if len(data) % 2 != 0:
+        data += b"\xff"
+    return data
+
+
+def remove_padding(data: bytes):
+    # remove padding if the last byte is 0xff and even number of bytes
+    if data[-1] == 0xFF and len(data) % 2 == 0:
+        data = data[:-1]
+    return data
+
+
 ########################
 # ENCRYPTION FUNCTIONS #
 ########################
 def xor(x: str, y: str) -> str:
     result = int(x, 16) ^ int(y, 16)
     return hex(result)[2:].zfill(4)
+
+
+def xor_bytes(x: bytes, y: bytes) -> bytes:
+    result = int.from_bytes(x, "big") ^ int.from_bytes(y, "big")
+    return result.to_bytes(len(x), "big")
 
 
 def sbox(x: str) -> str:

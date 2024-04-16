@@ -1,12 +1,59 @@
 from cipher.utils import (
+    add_padding,
     is_hexadecimal,
+    remove_padding,
     round_key,
     sbox,
     sbox_inverse,
     sigma_hat,
     tbox,
     xor,
+    xor_bytes,
 )
+
+
+def test_add_padding():
+    # generate byte stream with odd number of bytes
+    data = b"\x00\x01\x02\x03\x04\x05\x06\x07\x08"
+    assert add_padding(data) == b"\x00\x01\x02\x03\x04\x05\x06\x07\x08\xff"
+
+    # generate byte stream with even number of bytes
+    data = b"\x00\x01\x02\x03\x04\x05\x06\x07"
+    assert add_padding(data) == b"\x00\x01\x02\x03\x04\x05\x06\x07"
+
+
+def test_remove_padding():
+    # case 1: odd number of bytes with 0xff -> do nothing
+    data = b"\x00\x01\x02\x03\x04\x05\x06\x07\xff"
+    assert remove_padding(data) == b"\x00\x01\x02\x03\x04\x05\x06\x07\xff"
+
+    # case 2: even number of bytes with 0xff -> strip 0xff
+    data = b"\x00\x01\x02\x03\x04\x05\x06\xff"
+    assert remove_padding(data) == b"\x00\x01\x02\x03\x04\x05\x06"
+
+
+def test_xor_bytes():
+    assert xor_bytes(b"\x00", b"\x01") == b"\x01"
+    assert xor_bytes(b"\x01", b"\x02") == b"\x03"
+    assert xor_bytes(b"\x02", b"\x03") == b"\x01"
+    assert xor_bytes(b"\x03", b"\x04") == b"\x07"
+    assert xor_bytes(b"\x04", b"\x05") == b"\x01"
+    assert xor_bytes(b"\x05", b"\x06") == b"\x03"
+
+    assert xor_bytes(b"\x06", b"\x07") == b"\x01"
+    assert xor_bytes(b"\x07", b"\x08") == b"\x0f"
+    assert xor_bytes(b"\x08", b"\x09") == b"\x01"
+    assert xor_bytes(b"\x09", b"\x0a") == b"\x03"
+    assert xor_bytes(b"\x0a", b"\x0b") == b"\x01"
+    assert xor_bytes(b"\x0b", b"\x0c") == b"\x07"
+    assert xor_bytes(b"\x0c", b"\x0d") == b"\x01"
+    assert xor_bytes(b"\x0d", b"\x0e") == b"\x03"
+    assert xor_bytes(b"\x0e", b"\x0f") == b"\x01"
+    assert xor_bytes(b"\x0f", b"\x00") == b"\x0f"
+    assert xor_bytes(b"\x00", b"\x00") == b"\x00"
+    assert xor_bytes(b"\x00", b"\xff") == b"\xff"
+    assert xor_bytes(b"\xff", b"\xff") == b"\x00"
+    assert xor_bytes(b"\xff", b"\x00") == b"\xff"
 
 
 def test_is_hexadecimal():
