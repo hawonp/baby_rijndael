@@ -24,3 +24,12 @@ Implementation of the Baby Rijndael AES Cipher in Python
 - encryption/decryption is done on a file provided by the user. 
     - the file should be in the same root directory as 'main.py'
 - tests are written via pytest
+
+## MISC
+- get byte value of input file (grouped)
+    
+    `xxd -g 1 [filename]`
+- get byte value of input file (raw)
+    
+    `xxd -p [filename]`
+- [xxd documentation](https://ss64.com/mac/xxd.html)
