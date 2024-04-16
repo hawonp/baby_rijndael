@@ -11,8 +11,8 @@ class EncryptionDirection(StrEnum):
 
 
 class EncryptionMode(StrEnum):
-    ECB = "ECB"
-    CBC = "CBC"
+    ECB = "ecb"
+    CBC = "cbc"
 
 
 def main():
@@ -23,19 +23,35 @@ def main():
         "direction",
         type=str,
         choices=list(EncryptionDirection),
-        help="Encrypt or decrypt",
+        help="Encrypt or Decrypt the File",
     )
     parser.add_argument(
-        "mode", type=str, choices=list(EncryptionMode), help="ECB or CBC"
+        "mode",
+        type=str,
+        choices=list(EncryptionMode),
+        help="Use ECB or CBC Mode",
     )
     parser.add_argument(
         "filename",
         type=str,
         help="The filename to encrypt/decrypt",
     )
-    parser.add_argument("key", type=str, help="The key to use")
-    parser.add_argument("iv", type=str, help="The IV to use")
+    parser.add_argument(
+        "key",
+        type=str,
+        help="The key to use",
+    )
+    parser.add_argument(
+        "iv",
+        type=str,
+        help="The IV to use",
+    )
     args = parser.parse_args()
+
+    print("Welcome to Baby Rijndael!\n")
+    print(
+        f"You have chosen to {args.direction} the file '{args.filename}' using '{args.mode}' mode with the key '{args.key}' and the IV '{args.iv}'"  # noqa
+    )
 
     # baby_rijndael = BabyRijndael()
     with open(args.filename, "rb") as f:
