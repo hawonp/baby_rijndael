@@ -1,5 +1,5 @@
 # Baby Rijndael
-Implementation of the Baby Rijndael AES Cipher in Python
+Implementation of the Baby Rijndael Block Cipher in Python
 
 ## Requirements
 - python 3.10+
