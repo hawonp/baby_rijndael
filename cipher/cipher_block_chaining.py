@@ -21,6 +21,10 @@ def cbc_encrypt(
     # split plaintext into 16bit blocks
     blocks = [plaintext[i : i + 4] for i in range(0, len(plaintext), 4)]  # noqa
 
+    # if the last block is not 16 bits, pad it with 0xff
+    if len(blocks[-1]) < 4:
+        blocks[-1] = blocks[-1].ljust(4, "f")
+
     # set result to iv (for first block)
     result = initialisation_vector
 
@@ -73,5 +77,9 @@ def cbc_decrypt(
 
         # set result to current block
         result = blocks[i]
+
+    # if last block contains ff, remove the last 2 characters
+    if output.endswith("ff"):
+        output = output[:-2]
 
     return output

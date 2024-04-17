@@ -51,3 +51,17 @@ def test_block_cipher_encryption(
 ) -> None:
     block_cipher = block_cipher_dataset
     assert block_cipher.encrypt(block, key) == expected
+
+
+def test_invalid_block_cipher_encryption(
+    block_cipher_dataset: BabyRijndael,
+) -> None:
+    block_cipher = block_cipher_dataset
+
+    # invalid block, valid key
+    with pytest.raises(ValueError):
+        block_cipher.encrypt("0x123", "0x1234")
+
+    # valid block, invalid key
+    with pytest.raises(ValueError):
+        block_cipher.encrypt("0x1234", "0x123")

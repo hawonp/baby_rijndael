@@ -1,14 +1,43 @@
 from abc import ABC
 
-from .utils import round_key, sbox, sbox_inverse, sigma_hat, tbox, tbox_inverse, xor
+from .utils import (
+    is_sixteen_bit_hex,
+    round_key,
+    sbox,
+    sbox_inverse,
+    sigma_hat,
+    tbox,
+    tbox_inverse,
+    xor,
+)
 
 __all__ = ["BlockCipher", "BabyRijndael"]
 
 
 class BlockCipher(ABC):
+    def _encrypt(
+        self,
+        plaintext: str,
+        key: str,
+    ):
+        raise NotImplementedError
+
     def encrypt(
         self,
         plaintext: str,
+        key: str,
+    ):
+        if not is_sixteen_bit_hex(plaintext):
+            raise ValueError("Plaintext must be a 16-bit hex string")
+
+        if not is_sixteen_bit_hex(key):
+            raise ValueError("Key must be a 16-bit hex string")
+
+        return self._encrypt(plaintext, key)
+
+    def _decrypt(
+        self,
+        ciphertext: str,
         key: str,
     ):
         raise NotImplementedError
@@ -18,17 +47,20 @@ class BlockCipher(ABC):
         ciphertext: str,
         key: str,
     ):
-        raise NotImplementedError
+        if not is_sixteen_bit_hex(ciphertext):
+            raise ValueError("Ciphertext must be a 16-bit hex string")
+
+        if not is_sixteen_bit_hex(key):
+            raise ValueError("Key must be a 16-bit hex string")
+        return self._decrypt(ciphertext, key)
 
 
 class BabyRijndael(BlockCipher):
-
-    def encrypt(
+    def _encrypt(
         self,
-        plaintext: str,
-        key: str,
+        plaintext: str,  # plaintext is assumed to be a 16-bit hex string
+        key: str,  # key is assumed to be a 16-bit hex string
     ):
-
         if "0x" in plaintext:
             plaintext = plaintext[2:]
         if "0x" in key:
@@ -69,10 +101,10 @@ class BabyRijndael(BlockCipher):
 
         return round_four
 
-    def decrypt(
+    def _decrypt(
         self,
-        ciphertext: str,
-        key: str,
+        ciphertext: str,  # ciphertext is assumed to be a 16-bit hex string
+        key: str,  # key is assumed to be a 16-bit hex string
     ):
         if "0x" in ciphertext:
             ciphertext = ciphertext[2:]

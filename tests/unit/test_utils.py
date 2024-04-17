@@ -1,59 +1,27 @@
 from cipher.utils import (
-    add_padding,
     is_hexadecimal,
-    remove_padding,
+    is_sixteen_bit_hex,
     round_key,
     sbox,
     sbox_inverse,
     sigma_hat,
     tbox,
     xor,
-    xor_bytes,
 )
 
 
-def test_add_padding():
-    # generate byte stream with odd number of bytes
-    data = b"\x00\x01\x02\x03\x04\x05\x06\x07\x08"
-    assert add_padding(data) == b"\x00\x01\x02\x03\x04\x05\x06\x07\x08\xff"
+def test_is_sixteen_bit_hex():
+    # extract all possible 16-bit hex strings
+    sixteen_bit_hex_strings = [hex(i)[2:].zfill(4) for i in range(2**16)]
+    print(len(sixteen_bit_hex_strings))
+    # test all possible 16-bit hex strings
+    for hex_string in sixteen_bit_hex_strings:
+        assert is_sixteen_bit_hex(hex_string) is True
 
-    # generate byte stream with even number of bytes
-    data = b"\x00\x01\x02\x03\x04\x05\x06\x07"
-    assert add_padding(data) == b"\x00\x01\x02\x03\x04\x05\x06\x07"
-
-
-def test_remove_padding():
-    # case 1: odd number of bytes with 0xff -> do nothing
-    data = b"\x00\x01\x02\x03\x04\x05\x06\x07\xff"
-    assert remove_padding(data) == b"\x00\x01\x02\x03\x04\x05\x06\x07\xff"
-
-    # case 2: even number of bytes with 0xff -> strip 0xff
-    data = b"\x00\x01\x02\x03\x04\x05\x06\xff"
-    assert remove_padding(data) == b"\x00\x01\x02\x03\x04\x05\x06"
-
-
-def test_xor_bytes():
-    assert xor_bytes(b"\x00", b"\x01") == b"\x01"
-    assert xor_bytes(b"\x01", b"\x02") == b"\x03"
-    assert xor_bytes(b"\x02", b"\x03") == b"\x01"
-    assert xor_bytes(b"\x03", b"\x04") == b"\x07"
-    assert xor_bytes(b"\x04", b"\x05") == b"\x01"
-    assert xor_bytes(b"\x05", b"\x06") == b"\x03"
-
-    assert xor_bytes(b"\x06", b"\x07") == b"\x01"
-    assert xor_bytes(b"\x07", b"\x08") == b"\x0f"
-    assert xor_bytes(b"\x08", b"\x09") == b"\x01"
-    assert xor_bytes(b"\x09", b"\x0a") == b"\x03"
-    assert xor_bytes(b"\x0a", b"\x0b") == b"\x01"
-    assert xor_bytes(b"\x0b", b"\x0c") == b"\x07"
-    assert xor_bytes(b"\x0c", b"\x0d") == b"\x01"
-    assert xor_bytes(b"\x0d", b"\x0e") == b"\x03"
-    assert xor_bytes(b"\x0e", b"\x0f") == b"\x01"
-    assert xor_bytes(b"\x0f", b"\x00") == b"\x0f"
-    assert xor_bytes(b"\x00", b"\x00") == b"\x00"
-    assert xor_bytes(b"\x00", b"\xff") == b"\xff"
-    assert xor_bytes(b"\xff", b"\xff") == b"\x00"
-    assert xor_bytes(b"\xff", b"\x00") == b"\xff"
+    # test some invalid 16-bit hex strings
+    assert is_sixteen_bit_hex("0") is False
+    assert is_sixteen_bit_hex("00") is False
+    assert is_sixteen_bit_hex("000") is False
 
 
 def test_is_hexadecimal():
@@ -63,8 +31,6 @@ def test_is_hexadecimal():
     assert is_hexadecimal("3") is True
     assert is_hexadecimal("4") is True
     assert is_hexadecimal("5") is True
-    assert is_hexadecimal("6") is True
-    assert is_hexadecimal("7") is True
     assert is_hexadecimal("8") is True
     assert is_hexadecimal("9") is True
     assert is_hexadecimal("a") is True

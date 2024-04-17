@@ -51,3 +51,18 @@ def test_block_cipher_decryption(
 ) -> None:
     block_cipher = block_cipher_dataset
     assert block_cipher.decrypt(expected, key) == block
+
+
+def test_invalid_block_cipher_decryption(
+    block_cipher_dataset: BabyRijndael,
+) -> None:
+    block_cipher = block_cipher_dataset
+
+    # invalid block, valid key
+
+    with pytest.raises(ValueError):
+        block_cipher.decrypt("000", "0000")
+
+    # valid block, invalid key
+    with pytest.raises(ValueError):
+        block_cipher.decrypt("0000", "000")
