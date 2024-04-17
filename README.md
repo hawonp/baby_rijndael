@@ -16,9 +16,11 @@ Implementation of the Baby Rijndael Block Cipher in Python
 4. Install packages from requirements.txt
    
     `pip install -r requirements. txt`
-6. Run python script to encrypt/decrypt with Baby Rijndael
+6. Run python script with positional arguements to encrypt/decrypt with Baby Rijndael
    
     `python3 main.py`
+
+   a. run `python main.py -h` for more information
 
 ## Important
 - encryption/decryption is done on a file provided by the user. 
