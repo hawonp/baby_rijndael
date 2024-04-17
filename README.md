@@ -29,9 +29,11 @@ Implementation of the Baby Rijndael Block Cipher in Python
 - get byte value of input file (grouped)
     
     `xxd -g 1 [filename]`
+
     `od -cx [filename]` (outputs in little-endian)
 - get byte value of input file (raw)
 
     `xxd -p [filename]`
+    
     `od -t x1 [filename]`
 - [xxd documentation](https://ss64.com/mac/xxd.html)
