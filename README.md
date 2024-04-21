@@ -15,7 +15,7 @@ Implementation of the Baby Rijndael Block Cipher in Python
     `.venv\Scripts\activate` (windows)
 4. Install packages from requirements.txt
    
-    `pip install -r requirements. txt`
+    `pip install -r requirements.txt`
 6. Run python script with positional arguments to encrypt/decrypt with Baby Rijndael
    
     `python3 main.py`
