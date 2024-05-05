@@ -3,6 +3,7 @@ from enum import StrEnum
 
 from cipher.block_cipher import BabyRijndael
 from cipher.cipher_block_chaining import cbc_decrypt, cbc_encrypt
+from cipher.electronic_codebook import ecb_decrypt, ecb_encrypt
 
 
 class EncryptionDirection(StrEnum):
@@ -69,13 +70,13 @@ def main():
     if args.direction == EncryptionDirection.ENCRYPT:
         print("\nEncrypting...")
         if args.mode == EncryptionMode.ECB:
-            result = baby_rijndael.encrypt(data, args.key)
+            result = ecb_encrypt(data, args.key, baby_rijndael)
         elif args.mode == EncryptionMode.CBC:
             result = cbc_encrypt(data, args.key, args.iv, baby_rijndael)
     elif args.direction == EncryptionDirection.DECRYPT:
         print("\nDecrypting...")
         if args.mode == EncryptionMode.ECB:
-            result = baby_rijndael.decrypt(data, args.key)
+            result = ecb_decrypt(data, args.key, baby_rijndael)
         elif args.mode == EncryptionMode.CBC:
             result = cbc_decrypt(data, args.key, args.iv, baby_rijndael)
 
